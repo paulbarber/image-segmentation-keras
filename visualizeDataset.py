@@ -1,4 +1,4 @@
-
+import os
 import glob
 import numpy as np
 import cv2
@@ -7,8 +7,8 @@ import argparse
 
 def imageSegmentationGenerator( images_path , segs_path ,  n_classes ):
 
-	assert images_path[-1] == '/'
-	assert segs_path[-1] == '/'
+	assert images_path[-1] == os.sep
+	assert segs_path[-1] == os.sep
 
 	images = glob.glob( images_path + "*.jpg"  ) + glob.glob( images_path + "*.png"  ) +  glob.glob( images_path + "*.jpeg"  )
 	images.sort()
@@ -20,7 +20,7 @@ def imageSegmentationGenerator( images_path , segs_path ,  n_classes ):
 	assert len( images ) == len(segmentations)
 
 	for im_fn , seg_fn in zip(images,segmentations):
-		assert(  im_fn.split('/')[-1] ==  seg_fn.split('/')[-1] )
+		assert(  im_fn.split(os.sep)[-1] ==  seg_fn.split(os.sep)[-1] )
 
 		img = cv2.imread( im_fn )
 		seg = cv2.imread( seg_fn )

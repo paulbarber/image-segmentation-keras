@@ -41,6 +41,7 @@ optimizer_name = args.optimizer_name
 model_name = args.model_name
 
 if validate:
+	print "Validate"
 	val_images_path = args.val_images
 	val_segs_path = args.val_annotations
 	val_batch_size = args.val_batch_size

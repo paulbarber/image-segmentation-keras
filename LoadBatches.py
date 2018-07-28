@@ -1,11 +1,12 @@
-
+import os
 import numpy as np
 import cv2
 import glob
 import itertools
 
 
-def getImageArr( path , width , height , imgNorm="sub_mean" , odering='channels_first' ):
+#def getImageArr( path , width , height , imgNorm="sub_mean" , odering='channels_first' ):
+def getImageArr( path , width , height , imgNorm="divide" , odering='channels_first' ):
 
 	try:
 		img = cv2.imread(path, 1)
@@ -46,7 +47,7 @@ def getSegmentationArr( path , nClasses ,  width , height  ):
 		img = img[:, : , 0]
 
 		for c in range(nClasses):
-			seg_labels[: , : , c ] = (img == c ).astype(int)
+			seg_labels[: , : , c ] = (img == 255*c ).astype(int)
 
 	except Exception, e:
 		print e
@@ -58,8 +59,8 @@ def getSegmentationArr( path , nClasses ,  width , height  ):
 
 def imageSegmentationGenerator( images_path , segs_path ,  batch_size,  n_classes , input_height , input_width , output_height , output_width   ):
 	
-	assert images_path[-1] == '/'
-	assert segs_path[-1] == '/'
+	assert images_path[-1] == os.sep
+	assert segs_path[-1] == os.sep
 
 	images = glob.glob( images_path + "*.jpg"  ) + glob.glob( images_path + "*.png"  ) +  glob.glob( images_path + "*.jpeg"  )
 	images.sort()
@@ -68,7 +69,7 @@ def imageSegmentationGenerator( images_path , segs_path ,  batch_size,  n_classe
 
 	assert len( images ) == len(segmentations)
 	for im , seg in zip(images,segmentations):
-		assert(  im.split('/')[-1].split(".")[0] ==  seg.split('/')[-1].split(".")[0] )
+		assert(  im.split(os.sep)[-1].split(".")[0] ==  seg.split(os.sep)[-1].split(".")[0] )
 
 	zipped = itertools.cycle( zip(images,segmentations) )
 
