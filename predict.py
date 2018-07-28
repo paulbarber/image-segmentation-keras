@@ -43,7 +43,9 @@ images.sort()
 
 #colors = [  ( random.randint(0,255),random.randint(0,255),random.randint(0,255)   ) for _ in range(n_classes)  ]
 # For 2 classes
-colors = [(0,0,0), (255,255,255)]
+#colors = [(0,0,0), (255,255,255)]
+# For 4 classes
+colors = [(255,255,255), (170,170,170), (85,85,85), (0,0,0)]
 
 for imgName in images:
 	outName = imgName.replace( images_path ,  args.output_path )

@@ -2,7 +2,6 @@ import argparse
 import Models , LoadBatches
 
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--save_weights_path", type = str  )
 parser.add_argument("--train_images", type = str  )
@@ -52,6 +51,7 @@ modelFN = modelFns[ model_name ]
 m = modelFN( n_classes , input_height=input_height, input_width=input_width   )
 m.compile(loss='categorical_crossentropy',
       optimizer= optimizer_name ,
+#	  sample_weight_mode="temporal" ,
       metrics=['accuracy'])
 
 
@@ -60,6 +60,9 @@ if len( load_weights ) > 0:
 
 
 print "Model output shape" ,  m.output_shape
+from keras.utils import plot_model
+plot_model( m , show_shapes=True , to_file=save_weights_path + '.model.png')
+
 
 output_height = m.outputHeight
 output_width = m.outputWidth

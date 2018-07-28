@@ -44,10 +44,14 @@ def getSegmentationArr( path , nClasses ,  width , height  ):
 	try:
 		img = cv2.imread(path, 1)
 		img = cv2.resize(img, ( width , height ))
+		
+		# PRB to cope with our images that have a palette, convert from 0=white, 3=black
+		img = (255-img) / 64
+		
 		img = img[:, : , 0]
-
+			
 		for c in range(nClasses):
-			seg_labels[: , : , c ] = (img == 255*c ).astype(int)
+			seg_labels[: , : , c ] = (img == c ).astype(int)
 
 	except Exception, e:
 		print e
@@ -73,6 +77,12 @@ def imageSegmentationGenerator( images_path , segs_path ,  batch_size,  n_classe
 
 	zipped = itertools.cycle( zip(images,segmentations) )
 
+#	class_weights = np.zeros(65536 , 4))
+#	class_weights[:, 0] += 1.0
+#	class_weights[:, 1] += 1.0
+#	class_weights[:, 2] += 2.0
+#	class_weights[:, 3] += 10.0
+	
 	while True:
 		X = []
 		Y = []
@@ -81,7 +91,7 @@ def imageSegmentationGenerator( images_path , segs_path ,  batch_size,  n_classe
 			X.append( getImageArr(im , input_width , input_height )  )
 			Y.append( getSegmentationArr( seg , n_classes , output_width , output_height )  )
 
-		yield np.array(X) , np.array(Y)
+		yield np.array(X) , np.array(Y) #, class_weights
 
 
 # import Models , LoadBatches
