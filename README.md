@@ -2,6 +2,7 @@
 
 Implememnation of various Deep Image Segmentation models in keras. 
 
+This is a fork by paulbarber for fluorescence microscopy purposes. It has quite specific mods that will be generalised in good time...
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/sunshineatnoon/Paper-Collection/master/images/FCN1.png" width="50%" >
